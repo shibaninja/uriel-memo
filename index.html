@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚖️ 烏列爾的溫柔提醒</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    body { font-family: 'Noto Sans TC', sans-serif; }
+    .fade-out { animation: fadeOut 0.5s ease forwards; }
+    @keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .float { animation: float 3s ease-in-out infinite; }
+    @keyframes pulse-soft { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+    .pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+
+  <!-- Intro Overlay -->
+  <div id="intro" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-amber-50/98 via-orange-50/98 to-yellow-50/98 backdrop-blur-sm cursor-pointer" onclick="dismissIntro()">
+    <div class="w-64 h-64 sm:w-72 sm:h-72 rounded-3xl overflow-hidden shadow-2xl shadow-amber-300/40 mb-8 ring-4 ring-white/60 float">
+      <video id="introVideo" autoplay loop muted playsinline class="w-full h-full object-cover">
+        <source src="uriel-intro.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="text-center px-6 max-w-md">
+      <h2 class="text-2xl font-bold text-amber-800 mb-3">⚖️ 嗨 Joey，我是烏列爾</h2>
+      <p class="text-amber-700/80 text-lg leading-relaxed mb-2">我在審計帳單時發現了一些可能不再需要的訂閱，</p>
+      <p class="text-amber-700/80 text-lg leading-relaxed mb-6">想溫柔地提醒你看一下～沒有急，方便時確認就好 ☺️</p>
+      <button onclick="event.stopPropagation(); dismissIntro()" class="px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-400 text-white rounded-2xl font-medium shadow-lg shadow-amber-400/30 hover:shadow-xl hover:shadow-amber-400/40 transform hover:scale-105 transition-all duration-300">
+        好的，讓我看看
+      </button>
+      <p class="text-amber-600/40 text-sm mt-4 pulse-soft">點擊任意處繼續</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-2xl mx-auto px-4 py-8 sm:py-12">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center justify-center gap-3">
+        <span>⚖️</span> 烏列爾的溫柔提醒
+      </h1>
+      <p class="text-gray-500 mt-2 text-sm">建議確認是否仍需要的訂閱項目</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 gap-4 mb-8">
+      <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
+        <div class="text-xs text-gray-400 mb-1">每月可節省</div>
+        <div class="text-xl sm:text-2xl font-bold text-amber-600" id="monthlySave">—</div>
+      </div>
+      <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
+        <div class="text-xs text-gray-400 mb-1">已累計花費</div>
+        <div class="text-xl sm:text-2xl font-bold text-orange-600" id="totalSpent">—</div>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div id="cards" class="space-y-4"></div>
+
+    <!-- Empty State -->
+    <div id="empty" class="hidden text-center py-16">
+      <div class="text-5xl mb-4">✨</div>
+      <h3 class="text-xl font-bold text-gray-600 mb-2">沒有需要提醒的項目</h3>
+      <p class="text-gray-400">所有訂閱看起來都很合理！</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-8 bg-white/40 backdrop-blur-sm rounded-2xl p-5 border border-white/40 text-center">
+      <p class="text-gray-400 text-sm">⚖️ 烏列爾會在每期帳單審計時自動更新此頁面。</p>
+    </div>
+  </div>
+
+  <script>
+    // Data
+    const suggestions = [
+      {
+        name: "WiserApp",
+        desc: "數據工具",
+        card: "Joey-2042",
+        usd: 19.99,
+        reason: "連續多月出現在帳單中，但未見公司業務使用痕跡。建議確認是否仍需要，如不需要請盡快取消，每月可省下約 NT$600。",
+        history: [
+          { date: "2025/10/10", usd: 19.99, twd: 612 },
+          { date: "2025/11/10", usd: 19.99, twd: 620 }
+        ]
+      }
+    ];
+
+    // Render
+    function render() {
+      const totalUsd = suggestions.reduce((s, i) => s + (i.usd || 0), 0);
+      const totalTwd = suggestions.reduce((s, i) => s + i.history.reduce((hs, h) => hs + h.twd, 0), 0);
+
+      document.getElementById('monthlySave').textContent = '$' + totalUsd.toFixed(2);
+      document.getElementById('totalSpent').textContent = 'NT$' + totalTwd.toLocaleString();
+
+      if (!suggestions.length) {
+        document.getElementById('empty').classList.remove('hidden');
+        return;
+      }
+
+      const container = document.getElementById('cards');
+      suggestions.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bg-white/60 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-white/50 shadow-lg';
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
+                <span class="text-xl sm:text-2xl">🔔</span>
+                <h3 class="text-lg sm:text-xl font-bold text-gray-800">${item.name}</h3>
+                <span class="px-2.5 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">${item.card}</span>
+              </div>
+              <p class="text-gray-500 text-sm mb-3">${item.desc}</p>
+              <div class="bg-amber-50/80 rounded-2xl p-3 sm:p-4 border border-amber-200/50">
+                <p class="text-amber-800 text-sm leading-relaxed">💬 ${item.reason}</p>
+              </div>
+            </div>
+            <div class="text-right ml-4 sm:ml-6 flex-shrink-0">
+              <div class="text-2xl sm:text-3xl font-bold text-amber-600">$${item.usd?.toFixed(2) || '—'}</div>
+              <div class="text-xs text-gray-400">/ 月</div>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100">
+            <div class="text-xs text-gray-400 mb-2">帳單紀錄</div>
+            <div class="flex flex-wrap gap-2">
+              ${item.history.map(h => `<div class="px-3 py-1.5 bg-gray-50 rounded-xl text-xs text-gray-600 border border-gray-100">${h.date} — NT$${h.twd.toLocaleString()}</div>`).join('')}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function dismissIntro() {
+      const el = document.getElementById('intro');
+      el.classList.add('fade-out');
+      setTimeout(() => el.style.display = 'none', 500);
+    }
+
+    render();
+  </script>
+</body>
+</html>
