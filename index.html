@@ -32,13 +32,10 @@
       <h2 class="text-2xl font-bold text-amber-800 mb-3">⚖️ 嗨 Joey，我是烏列爾</h2>
       <p class="text-amber-700/80 text-lg leading-relaxed mb-2">我在審計帳單時發現了一些可能不再需要的訂閱，</p>
       <p class="text-amber-700/80 text-lg leading-relaxed mb-6">想溫柔地提醒你看一下～沒有急，方便時確認就好 ☺️</p>
-      <button id="startBtn" onclick="startIntro()" class="px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-400 text-white rounded-2xl font-medium shadow-lg shadow-amber-400/30 hover:shadow-xl hover:shadow-amber-400/40 transform hover:scale-105 transition-all duration-300">
-        ▶️ 聽烏列爾說
-      </button>
-      <button id="skipBtn" class="hidden mt-3 px-8 py-3 bg-white/60 text-amber-700 rounded-2xl font-medium shadow-sm border border-amber-200 hover:bg-white/80 transform hover:scale-105 transition-all duration-300" onclick="dismissIntro()">
+      <button id="skipBtn" class="mt-3 px-8 py-3 bg-white/60 text-amber-700 rounded-2xl font-medium shadow-sm border border-amber-200 hover:bg-white/80 transform hover:scale-105 transition-all duration-300" onclick="dismissIntro()">
         好的，讓我看看 →
       </button>
-      <p id="introHint" class="text-amber-600/40 text-sm mt-4 pulse-soft">點擊播放鍵開始</p>
+      <p id="introHint" class="text-amber-600/40 text-sm mt-4 pulse-soft">語音播放中...</p>
     </div>
   </div>
 
@@ -134,35 +131,34 @@
       });
     }
 
-    let introStarted = false;
-
-    function startIntro() {
-      if (introStarted) return;
-      introStarted = true;
-
+    // Auto-play on page load
+    window.addEventListener('load', () => {
       const video = document.getElementById('introVideo');
       const audio = document.getElementById('introAudio');
-      const startBtn = document.getElementById('startBtn');
       const skipBtn = document.getElementById('skipBtn');
       const hint = document.getElementById('introHint');
 
-      // Play video once (not looping) + audio simultaneously
+      // Play video once + audio simultaneously
       video.play().catch(() => {});
-      audio.play().catch(() => {});
+      audio.play().catch(() => {
+        // Browser blocked autoplay — add click-to-play fallback
+        hint.textContent = '點擊任意處播放';
+        document.getElementById('intro').addEventListener('click', function handler() {
+          video.play().catch(() => {});
+          audio.play().catch(() => {});
+          hint.textContent = '語音播放中...';
+          document.getElementById('intro').removeEventListener('click', handler);
+        }, { once: true });
+      });
 
-      // Update UI
-      startBtn.classList.add('hidden');
-      skipBtn.classList.remove('hidden');
-      hint.textContent = '語音播放中...';
-
-      // When audio finishes, show skip button more prominently
+      // When audio finishes, make skip button prominent
       audio.addEventListener('ended', () => {
         hint.textContent = '';
         skipBtn.textContent = '好的，讓我看看 →';
         skipBtn.classList.remove('bg-white/60', 'text-amber-700', 'border-amber-200');
         skipBtn.classList.add('bg-gradient-to-r', 'from-amber-400', 'to-orange-400', 'text-white', 'shadow-lg', 'shadow-amber-400/30');
       });
-    }
+    });
 
     function dismissIntro() {
       const el = document.getElementById('intro');
