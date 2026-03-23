@@ -75,12 +75,36 @@
       <p class="text-gray-400">所有訂閱看起來都很合理！</p>
     </div>
 
+    <!-- Action Log -->
+    <div id="actionLog" class="mt-8"></div>
+
     <div class="mt-8 bg-white/40 backdrop-blur-sm rounded-2xl p-5 border border-white/40 text-center">
       <p class="text-gray-400 text-sm">⚖️ 烏列爾會在每期帳單審計時自動更新此頁面。</p>
     </div>
   </div>
 
   <script>
+    // Action Log: 取消/調整歷史紀錄
+    const actionLog = [
+      {
+        date: '2026/03/22',
+        title: '訂閱優化 — 第一輪清理',
+        actions: [
+          { type: 'cancelled', name: 'Nansen', desc: 'Web3 鏈上數據分析', usd: 588, billing: 'yearly', note: '有效至 2027/03/06' },
+          { type: 'cancelled', name: 'Restream', desc: '直播串流平台', usd: 490, billing: 'yearly', note: '有效至 2026/11/29' },
+          { type: 'cancelled', name: 'Creatomate', desc: '影片/圖片自動化', usd: 187.24, billing: 'monthly', note: '有效至 2026/03/22' },
+          { type: 'cancelled', name: '2Sync', desc: '社群內容同步', usd: 24, billing: 'monthly', note: '有效至 2026/04/04' },
+          { type: 'cancelled', name: 'Heptabase', desc: '視覺化筆記', usd: 11.99, billing: 'monthly', note: '有效至 2026/04/15' },
+          { type: 'cancelled', name: 'WiserApp', desc: '數據工具（個人）', usd: 19.99, billing: 'monthly', note: '個人訂閱' },
+          { type: 'cancelled', name: 'HuggingFace', desc: 'ML 模型平台', usd: 9, billing: 'monthly', note: '降為免費版' },
+          { type: 'cancelled', name: 'Midjourney', desc: 'AI 圖像生成', usd: 10.50, billing: 'monthly', note: '停用' },
+          { type: 'adjusted', name: 'Replit', desc: 'AI 開發平台', from: 25, to: 10, billing: 'monthly', note: '降級方案' },
+          { type: 'adjusted', name: 'Airtable', desc: '資料庫/專案管理', from: 144, to: 48, billing: 'monthly', note: '6→2 seats' },
+          { type: 'reclassified', name: '1Picasso', desc: 'AI 藝術生成', note: '一次性消費，非訂閱' },
+        ]
+      }
+    ];
+
     // type: "personal" | "company"
     // status: undefined=待確認 | "cancelled" | "one-time" | "downgraded-free" | "downgraded" | "in-use"
     const suggestions = [
@@ -393,6 +417,68 @@
 
       renderSection('⏳ 待確認', '📋', pendingItems);
       renderSection('✅ 已處理', '📁', resolved);
+
+      // Render Action Log
+      const logEl = document.getElementById('actionLog');
+      if (actionLog.length) {
+        let logHtml = `<h2 class="text-lg font-bold text-gray-700 mb-4 flex items-center gap-2"><span>📊</span> 優化紀錄</h2>`;
+        actionLog.forEach(entry => {
+          const cancelled = entry.actions.filter(a => a.type === 'cancelled');
+          const adjusted = entry.actions.filter(a => a.type === 'adjusted');
+          const reclassified = entry.actions.filter(a => a.type === 'reclassified');
+          
+          const monthlySaved = cancelled.reduce((s, a) => s + (a.billing === 'monthly' ? a.usd : 0), 0)
+            + adjusted.reduce((s, a) => s + (a.from - a.to), 0);
+          const yearlySaved = cancelled.filter(a => a.billing === 'yearly').reduce((s, a) => s + a.usd, 0);
+          
+          logHtml += `<div class="bg-white/60 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-white/50 shadow-lg mb-4">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="text-sm font-bold text-gray-800">${entry.date}</div>
+                <div class="text-xs text-gray-500">${entry.title}</div>
+              </div>
+              <div class="text-right">
+                <div class="text-lg font-bold text-emerald-600">-$${monthlySaved.toFixed(2)}/月</div>
+                ${yearlySaved ? `<div class="text-xs text-emerald-500">-$${yearlySaved.toFixed(2)}/年</div>` : ''}
+              </div>
+            </div>`;
+          
+          if (cancelled.length) {
+            logHtml += `<div class="mb-3"><div class="text-xs font-semibold text-red-400 mb-2">❌ 取消 (${cancelled.length})</div>`;
+            cancelled.forEach(a => {
+              logHtml += `<div class="flex justify-between items-center py-1.5 text-sm border-b border-gray-50">
+                <div><span class="text-gray-700">${a.name}</span> <span class="text-gray-400 text-xs">${a.desc}</span></div>
+                <div class="text-right"><span class="line-through text-gray-400 text-xs">$${a.usd}${a.billing === 'yearly' ? '/yr' : '/mo'}</span> <span class="text-xs text-gray-400">${a.note || ''}</span></div>
+              </div>`;
+            });
+            logHtml += `</div>`;
+          }
+          
+          if (adjusted.length) {
+            logHtml += `<div class="mb-3"><div class="text-xs font-semibold text-amber-500 mb-2">🔄 調整 (${adjusted.length})</div>`;
+            adjusted.forEach(a => {
+              logHtml += `<div class="flex justify-between items-center py-1.5 text-sm border-b border-gray-50">
+                <div><span class="text-gray-700">${a.name}</span> <span class="text-gray-400 text-xs">${a.desc}</span></div>
+                <div class="text-right"><span class="line-through text-gray-400 text-xs">$${a.from}</span> → <span class="text-emerald-600 text-xs font-medium">$${a.to}/mo</span> <span class="text-xs text-gray-400">${a.note || ''}</span></div>
+              </div>`;
+            });
+            logHtml += `</div>`;
+          }
+          
+          if (reclassified.length) {
+            logHtml += `<div><div class="text-xs font-semibold text-blue-400 mb-2">📋 重分類 (${reclassified.length})</div>`;
+            reclassified.forEach(a => {
+              logHtml += `<div class="flex justify-between items-center py-1.5 text-sm border-b border-gray-50">
+                <span class="text-gray-700">${a.name}</span> <span class="text-gray-400 text-xs">${a.note}</span>
+              </div>`;
+            });
+            logHtml += `</div>`;
+          }
+          
+          logHtml += `</div>`;
+        });
+        logEl.innerHTML = logHtml;
+      }
     }
 
     // Auto-play on page load
