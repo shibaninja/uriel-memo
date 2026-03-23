@@ -128,11 +128,14 @@
       const downgraded = suggestions.filter(i => i.status === 'downgraded' || i.status === 'downgraded-free');
 
       const pendingUsd = pending.reduce((s, i) => s + (i.usd || 0), 0);
-      // 已節省：從 actionLog 計算（與 log.html 一致）
+      // 已節省：從 actionLog 計算（月費直接加，年費÷12）
       let savedUsd = 0;
       actionLog.forEach(entry => {
         entry.actions.forEach(a => {
-          if (a.type === 'cancelled' && a.billing === 'monthly') savedUsd += a.usd || 0;
+          if (a.type === 'cancelled') {
+            if (a.billing === 'yearly') savedUsd += (a.usd || 0) / 12;
+            else savedUsd += a.usd || 0;
+          }
           if (a.type === 'adjusted') savedUsd += (a.from - a.to);
         });
       });
