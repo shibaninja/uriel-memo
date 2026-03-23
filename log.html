@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📊 優化紀錄 — 烏列爾</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    body { font-family: 'Noto Sans TC', sans-serif; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+
+  <div class="max-w-2xl mx-auto px-4 py-8 sm:py-12">
+
+    <!-- Navigation -->
+    <a href="index.html" class="inline-flex items-center gap-1 text-amber-700 hover:text-amber-900 text-sm font-medium mb-6 transition-colors">
+      ⬅ 回到訂閱提醒
+    </a>
+
+    <div class="text-center mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center justify-center gap-3">
+        <span>📊</span> 優化紀錄
+      </h1>
+      <p class="text-gray-500 mt-2 text-sm">訂閱取消與調整的完整紀錄</p>
+    </div>
+
+    <!-- Cumulative Savings Stats -->
+    <div id="savingsStats" class="grid grid-cols-3 gap-3 mb-8"></div>
+
+    <!-- Action Log -->
+    <div id="actionLog"></div>
+
+    <div class="mt-8 bg-white/40 backdrop-blur-sm rounded-2xl p-5 border border-white/40 text-center">
+      <p class="text-gray-400 text-sm">⚖️ 烏列爾會在每期帳單審計時自動更新此頁面。</p>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    function render() {
+      // Calculate cumulative savings across all action log entries
+      let totalMonthlySaved = 0;
+      let totalYearlySaved = 0;
+      let totalActions = 0;
+
+      actionLog.forEach(entry => {
+        const cancelled = entry.actions.filter(a => a.type === 'cancelled');
+        const adjusted = entry.actions.filter(a => a.type === 'adjusted');
+        totalMonthlySaved += cancelled.reduce((s, a) => s + (a.billing === 'monthly' ? a.usd : 0), 0)
+          + adjusted.reduce((s, a) => s + (a.from - a.to), 0);
+        totalYearlySaved += cancelled.filter(a => a.billing === 'yearly').reduce((s, a) => s + a.usd, 0);
+        totalActions += entry.actions.length;
+      });
+
+      // Render savings stats
+      const statsEl = document.getElementById('savingsStats');
+      statsEl.innerHTML = `
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
+          <div class="text-xs text-gray-400 mb-1">累計月省</div>
+          <div class="text-xl sm:text-2xl font-bold text-emerald-600">$${totalMonthlySaved.toFixed(2)}</div>
+          <div class="text-xs text-gray-400">/月</div>
+        </div>
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
+          <div class="text-xs text-gray-400 mb-1">累計年省</div>
+          <div class="text-xl sm:text-2xl font-bold text-emerald-600">$${totalYearlySaved.toFixed(2)}</div>
+          <div class="text-xs text-gray-400">/年</div>
+        </div>
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
+          <div class="text-xs text-gray-400 mb-1">已處理項目</div>
+          <div class="text-xl sm:text-2xl font-bold text-amber-600">${totalActions}</div>
+          <div class="text-xs text-gray-400">項</div>
+        </div>
+      `;
+
+      // Render action log
+      const logEl = document.getElementById('actionLog');
+      if (!actionLog.length) return;
+
+      let logHtml = '';
+      actionLog.forEach(entry => {
+        const cancelled = entry.actions.filter(a => a.type === 'cancelled');
+        const adjusted = entry.actions.filter(a => a.type === 'adjusted');
+        const reclassified = entry.actions.filter(a => a.type === 'reclassified');
+
+        const monthlySaved = cancelled.reduce((s, a) => s + (a.billing === 'monthly' ? a.usd : 0), 0)
+          + adjusted.reduce((s, a) => s + (a.from - a.to), 0);
+        const yearlySaved = cancelled.filter(a => a.billing === 'yearly').reduce((s, a) => s + a.usd, 0);
+
+        logHtml += `<div class="bg-white/60 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-white/50 shadow-lg mb-4">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <div class="text-sm font-bold text-gray-800">${entry.date}</div>
+              <div class="text-xs text-gray-500">${entry.title}</div>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold text-emerald-600">-$${monthlySaved.toFixed(2)}/月</div>
+              ${yearlySaved ? `<div class="text-xs text-emerald-500">-$${yearlySaved.toFixed(2)}/年</div>` : ''}
+            </div>
+          </div>`;
+
+        if (cancelled.length) {
+          logHtml += `<div class="mb-3"><div class="text-xs font-semibold text-red-400 mb-2">❌ 取消 (${cancelled.length})</div>`;
+          cancelled.forEach(a => {
+            logHtml += `<div class="flex justify-between items-center py-1.5 text-sm border-b border-gray-50">
+              <div><span class="text-gray-700">${a.name}</span> <span class="text-gray-400 text-xs">${a.desc}</span></div>
+              <div class="text-right"><span class="line-through text-gray-400 text-xs">$${a.usd}${a.billing === 'yearly' ? '/yr' : '/mo'}</span> <span class="text-xs text-gray-400">${a.note || ''}</span></div>
+            </div>`;
+          });
+          logHtml += `</div>`;
+        }
+
+        if (adjusted.length) {
+          logHtml += `<div class="mb-3"><div class="text-xs font-semibold text-amber-500 mb-2">🔄 調整 (${adjusted.length})</div>`;
+          adjusted.forEach(a => {
+            logHtml += `<div class="flex justify-between items-center py-1.5 text-sm border-b border-gray-50">
+              <div><span class="text-gray-700">${a.name}</span> <span class="text-gray-400 text-xs">${a.desc}</span></div>
+              <div class="text-right"><span class="line-through text-gray-400 text-xs">$${a.from}</span> → <span class="text-emerald-600 text-xs font-medium">$${a.to}/mo</span> <span class="text-xs text-gray-400">${a.note || ''}</span></div>
+            </div>`;
+          });
+          logHtml += `</div>`;
+        }
+
+        if (reclassified.length) {
+          logHtml += `<div><div class="text-xs font-semibold text-blue-400 mb-2">📋 重分類 (${reclassified.length})</div>`;
+          reclassified.forEach(a => {
+            logHtml += `<div class="flex justify-between items-center py-1.5 text-sm border-b border-gray-50">
+              <span class="text-gray-700">${a.name}</span> <span class="text-gray-400 text-xs">${a.note}</span>
+            </div>`;
+          });
+          logHtml += `</div>`;
+        }
+
+        logHtml += `</div>`;
+      });
+      logEl.innerHTML = logHtml;
+    }
+
+    render();
+  </script>
+</body>
+</html>
