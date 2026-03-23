@@ -85,52 +85,6 @@
     // status: undefined=待確認 | "cancelled" | "one-time" | "downgraded-free" | "downgraded" | "in-use"
     const suggestions = [
       {
-        name: "WiserApp",
-        desc: "數據工具",
-        card: "Joey-2042",
-        usd: 19.99,
-        type: "personal",
-        status: "cancelled",
-        validUntil: "2026/04/10",
-        history: [
-          { date: "2025/10/10", usd: 19.99, twd: 612 },
-          { date: "2025/11/10", usd: 19.99, twd: 620 },
-          { date: "2025/12/10", usd: 19.99, twd: 623 },
-          { date: "2026/01/15", usd: 19.99, twd: 631 },
-          { date: "2026/02/15", usd: 19.99, twd: 629 },
-          { date: "2026/03/10", usd: 19.99, twd: 638 }
-        ]
-      },
-      {
-        name: "2Sync",
-        desc: "社群內容同步",
-        card: "Joey-2042",
-        usd: 24.00,
-        type: "company",
-        status: "cancelled",
-        validUntil: "2026/04/04",
-        history: [
-          { date: "2025/10/04", usd: 24.00, twd: 730 },
-          { date: "2025/11/04", usd: 24.00, twd: 742 },
-          { date: "2025/12/04", usd: 24.00, twd: 751 },
-          { date: "2026/01/04", usd: 24.00, twd: 754 },
-          { date: "2026/02/04", usd: 24.00, twd: 758 },
-          { date: "2026/03/04", usd: 24.00, twd: 761 }
-        ]
-      },
-      {
-        name: "1Picasso",
-        desc: "AI 藝術生成",
-        card: "Joey-2042",
-        usd: 122.53,
-        type: "company",
-        status: "one-time",
-        statusNote: "一次性消費，非訂閱",
-        history: [
-          { date: "2026/01/18", usd: 122.53, twd: 3676 }
-        ]
-      },
-      {
         name: "21st.dev",
         desc: "AI 開發工具",
         card: "Joey-2042",
@@ -196,24 +150,6 @@
         ]
       },
       {
-        name: "Creatomate",
-        desc: "影片/圖片自動化生成",
-        card: "Joey-2042",
-        usd: 196.47,
-        type: "company",
-        status: "cancelled",
-        validUntil: "2026/03/22",
-        statusNote: "已過期",
-        history: [
-          { date: "2025/09/27", usd: 141.13, twd: 4234 },
-          { date: "2025/10/22", usd: 196.47, twd: 5894 },
-          { date: "2025/11/22", usd: 196.47, twd: 5894 },
-          { date: "2025/12/22", usd: 196.47, twd: 5894 },
-          { date: "2026/01/25", usd: 196.47, twd: 5894 },
-          { date: "2026/02/22", usd: 196.47, twd: 5894 }
-        ]
-      },
-      {
         name: "Docker",
         desc: "容器化平台",
         card: "Joey-2042",
@@ -254,35 +190,6 @@
           { date: "2026/02/22", usd: 14.99, twd: 472 }
         ]
       },
-      {
-        name: "Heptabase",
-        desc: "視覺化筆記工具",
-        card: "Joey-2042",
-        usd: 11.99,
-        type: "company",
-        status: "cancelled",
-        validUntil: "2026/04/15",
-        history: [
-          { date: "2025/09/14", usd: 11.99, twd: 364 },
-          { date: "2025/10/14", usd: 11.99, twd: 368 },
-          { date: "2025/11/14", usd: 11.99, twd: 373 },
-          { date: "2025/12/14", usd: 11.99, twd: 376 },
-          { date: "2026/01/17", usd: 11.99, twd: 379 },
-          { date: "2026/02/14", usd: 11.99, twd: 377 }
-        ]
-      },
-      {
-        name: "HuggingFace",
-        desc: "ML 模型平台",
-        card: "Joey-2042",
-        usd: 10.00,
-        type: "company",
-        status: "cancelled",
-        history: [
-          { date: "2025/10/01", usd: 9, twd: 274 },
-          { date: "2025/11/02", usd: 9, twd: 277 }
-        ]
-      },
 
       {
         name: "Midjourney",
@@ -297,19 +204,6 @@
           { date: "2026/01/01", usd: 10.5, twd: 330 },
           { date: "2026/02/01", usd: 10.5, twd: 331 },
           { date: "2026/03/01", usd: 10.5, twd: 329 }
-        ]
-      },
-      {
-        name: "Nansen",
-        desc: "Web3 鏈上數據分析",
-        card: "Joey-2042",
-        usd: 588.00,
-        type: "company",
-        status: "cancelled",
-        validUntil: "2027/03/06",
-        statusNote: "年費 $588，已取消續訂",
-        history: [
-          { date: "2026/03/06", usd: 588, twd: 18702 }
         ]
       },
       {
@@ -344,19 +238,6 @@
           { date: "2025/12/23", usd: 25, twd: 788 },
           { date: "2026/01/24", usd: 25, twd: 789 },
           { date: "2026/02/23", usd: 25, twd: 788 }
-        ]
-      },
-      {
-        name: "Restream",
-        desc: "直播串流平台",
-        card: "Joey-2042",
-        usd: 490.00,
-        type: "company",
-        status: "cancelled",
-        validUntil: "2026/11/29",
-        statusNote: "年費，已取消續訂",
-        history: [
-          { date: "2025/12/04", usd: 490, twd: 15333 }
         ]
       },
       {
