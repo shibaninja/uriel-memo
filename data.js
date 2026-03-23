@@ -13,6 +13,7 @@ const actionLog = [
       { type: 'cancelled', name: 'HuggingFace', desc: 'ML 模型平台', usd: 9, billing: 'monthly', note: '降為免費版' },
       { type: 'cancelled', name: 'Midjourney', desc: 'AI 圖像生成', usd: 10.50, billing: 'monthly', note: '停用' },
       { type: 'adjusted', name: 'Replit', desc: 'AI 開發平台', from: 25, to: 10, billing: 'monthly', note: '降級方案' },
+          { type: 'adjusted', name: 'Airtable', desc: '資料庫/專案管理', from: 144, to: 48, billing: 'monthly', note: '6→2 seats' },
       { type: 'adjusted', name: 'Airtable', desc: '資料庫/專案管理', from: 144, to: 48, billing: 'monthly', note: '6→2 seats' },
       { type: 'reclassified', name: '1Picasso', desc: 'AI 藝術生成', note: '一次性消費，非訂閱' },
     ]
@@ -71,15 +72,6 @@ const suggestions = [
       { date: "2026/02/15", usd: 10, twd: 314 }
     ]
   },
-  {
-    name: "Airtable",
-    desc: "資料庫/專案管理",
-    card: "Joey-2042",
-    usd: 144.00,
-    type: "company",
-    statusNote: "🔄 6→2 seats 處理中",
-    history: [
-      { date: "2025/09/19", usd: 155.87, twd: 4703 },
       { date: "2025/10/27", usd: 144, twd: 4444 },
       { date: "2025/11/19", usd: 144, twd: 4487 },
       { date: "2025/12/27", usd: 144, twd: 4526 },
