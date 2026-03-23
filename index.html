@@ -46,12 +46,20 @@
         <span>⚖️</span> 烏列爾的溫柔提醒
       </h1>
       <p class="text-gray-500 mt-2 text-sm">建議確認是否仍需要的訂閱項目</p>
+      <p class="text-gray-400 mt-1 text-xs">最後更新：2026/03/23</p>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 mb-8">
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-3 gap-3 mb-8">
       <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
-        <div class="text-xs text-gray-400 mb-1">每月可節省</div>
+        <div class="text-xs text-gray-400 mb-1">仍待確認</div>
         <div class="text-xl sm:text-2xl font-bold text-amber-600" id="monthlySave">—</div>
+        <div class="text-xs text-gray-400">/月</div>
+      </div>
+      <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
+        <div class="text-xs text-gray-400 mb-1">已節省</div>
+        <div class="text-xl sm:text-2xl font-bold text-emerald-600" id="monthlySaved">—</div>
+        <div class="text-xs text-gray-400">/月</div>
       </div>
       <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/50 shadow-sm text-center">
         <div class="text-xs text-gray-400 mb-1">已累計花費</div>
@@ -73,7 +81,8 @@
   </div>
 
   <script>
-    // type: "personal" = 個人訂閱, "company" = 公司採購訂閱
+    // type: "personal" | "company"
+    // status: undefined=待確認 | "cancelled" | "one-time" | "downgraded-free" | "downgraded" | "in-use"
     const suggestions = [
       {
         name: "WiserApp",
@@ -81,6 +90,8 @@
         card: "Joey-2042",
         usd: 19.99,
         type: "personal",
+        status: "cancelled",
+        validUntil: "2026/04/10",
         history: [
           { date: "2025/10/10", usd: 19.99, twd: 612 },
           { date: "2025/11/10", usd: 19.99, twd: 620 },
@@ -91,11 +102,41 @@
         ]
       },
       {
+        name: "2Sync",
+        desc: "社群內容同步",
+        card: "Joey-2042",
+        usd: 24.00,
+        type: "company",
+        status: "cancelled",
+        validUntil: "2026/04/04",
+        history: [
+          { date: "2025/10/04", usd: 24.00, twd: 730 },
+          { date: "2025/11/04", usd: 24.00, twd: 742 },
+          { date: "2025/12/04", usd: 24.00, twd: 751 },
+          { date: "2026/01/04", usd: 24.00, twd: 754 },
+          { date: "2026/02/04", usd: 24.00, twd: 758 },
+          { date: "2026/03/04", usd: 24.00, twd: 761 }
+        ]
+      },
+      {
+        name: "1Picasso",
+        desc: "AI 藝術生成",
+        card: "Joey-2042",
+        usd: 122.53,
+        type: "company",
+        status: "one-time",
+        statusNote: "一次性消費，非訂閱",
+        history: [
+          { date: "2026/01/18", usd: 122.53, twd: 3676 }
+        ]
+      },
+      {
         name: "21st.dev",
         desc: "AI 開發工具",
         card: "Joey-2042",
         usd: 40.00,
         type: "company",
+        statusNote: "⚠️ 待查 — Joey 說沒有付款紀錄",
         history: [
           { date: "2025/09/15", usd: 10, twd: 302 },
           { date: "2025/09/15", usd: 30, twd: 906 },
@@ -106,6 +147,22 @@
           { date: "2025/12/15", usd: 10, twd: 313 },
           { date: "2026/01/15", usd: 10, twd: 316 },
           { date: "2026/02/15", usd: 10, twd: 314 }
+        ]
+      },
+      {
+        name: "Airtable",
+        desc: "資料庫/專案管理",
+        card: "Joey-2042",
+        usd: 144.00,
+        type: "company",
+        statusNote: "🔄 6→2 seats 處理中",
+        history: [
+          { date: "2025/09/19", usd: 155.87, twd: 4703 },
+          { date: "2025/10/27", usd: 144, twd: 4444 },
+          { date: "2025/11/19", usd: 144, twd: 4487 },
+          { date: "2025/12/27", usd: 144, twd: 4526 },
+          { date: "2026/01/19", usd: 144, twd: 4552 },
+          { date: "2026/02/19", usd: 144, twd: 4536 }
         ]
       },
       {
@@ -139,6 +196,24 @@
         ]
       },
       {
+        name: "Creatomate",
+        desc: "影片/圖片自動化生成",
+        card: "Joey-2042",
+        usd: 196.47,
+        type: "company",
+        status: "cancelled",
+        validUntil: "2026/03/22",
+        statusNote: "已過期",
+        history: [
+          { date: "2025/09/27", usd: 141.13, twd: 4234 },
+          { date: "2025/10/22", usd: 196.47, twd: 5894 },
+          { date: "2025/11/22", usd: 196.47, twd: 5894 },
+          { date: "2025/12/22", usd: 196.47, twd: 5894 },
+          { date: "2026/01/25", usd: 196.47, twd: 5894 },
+          { date: "2026/02/22", usd: 196.47, twd: 5894 }
+        ]
+      },
+      {
         name: "Docker",
         desc: "容器化平台",
         card: "Joey-2042",
@@ -164,11 +239,12 @@
         ]
       },
       {
-        name: "Hanabi AI",
-        desc: "AI 工具",
+        name: "Fish Audio (Hanabi AI)",
+        desc: "語音生成平台",
         card: "Joey-2042",
         usd: 14.99,
         type: "company",
+        status: "in-use",
         history: [
           { date: "2025/09/22", usd: 14.99, twd: 454 },
           { date: "2025/10/22", usd: 14.99, twd: 460 },
@@ -179,11 +255,43 @@
         ]
       },
       {
-        name: "Luma Labs",
-        desc: "AI 3D/影片生成",
+        name: "Heptabase",
+        desc: "視覺化筆記工具",
+        card: "Joey-2042",
+        usd: 11.99,
+        type: "company",
+        status: "cancelled",
+        validUntil: "2026/04/15",
+        history: [
+          { date: "2025/09/14", usd: 11.99, twd: 364 },
+          { date: "2025/10/14", usd: 11.99, twd: 368 },
+          { date: "2025/11/14", usd: 11.99, twd: 373 },
+          { date: "2025/12/14", usd: 11.99, twd: 376 },
+          { date: "2026/01/17", usd: 11.99, twd: 379 },
+          { date: "2026/02/14", usd: 11.99, twd: 377 }
+        ]
+      },
+      {
+        name: "HuggingFace",
+        desc: "ML 模型平台",
+        card: "Joey-2042",
+        usd: 0,
+        origUsd: 9.00,
+        type: "company",
+        status: "downgraded-free",
+        statusNote: "2025/12 起已降免費版",
+        history: [
+          { date: "2025/10/01", usd: 9, twd: 274 },
+          { date: "2025/11/02", usd: 9, twd: 277 }
+        ]
+      },
+      {
+        name: "Luma 活動平台",
+        desc: "BlockTempo 活動管理",
         card: "Joey-2042",
         usd: 69.00,
         type: "company",
+        status: "in-use",
         history: [
           { date: "2025/09/27", usd: 69, twd: 2104 },
           { date: "2025/10/20", usd: 69, twd: 2116 },
@@ -209,11 +317,25 @@
         ]
       },
       {
-        name: "PathUnfold",
-        desc: "AI 工具",
+        name: "Nansen",
+        desc: "Web3 鏈上數據分析",
+        card: "Joey-2042",
+        usd: 588.00,
+        type: "company",
+        status: "cancelled",
+        validUntil: "2027/03/06",
+        statusNote: "年費 $588，已取消續訂",
+        history: [
+          { date: "2026/03/06", usd: 588, twd: 18702 }
+        ]
+      },
+      {
+        name: "用 AI 發電 社群 (PathUnfold)",
+        desc: "社群訂閱費",
         card: "Joey-2042",
         usd: 15.58,
         type: "company",
+        status: "in-use",
         history: [
           { date: "2025/10/10", usd: 15.58, twd: 477 },
           { date: "2025/11/10", usd: 15.58, twd: 483 },
@@ -221,6 +343,37 @@
           { date: "2026/01/15", usd: 15.58, twd: 492 },
           { date: "2026/02/10", usd: 15.58, twd: 492 },
           { date: "2026/03/10", usd: 15.58, twd: 497 }
+        ]
+      },
+      {
+        name: "Replit",
+        desc: "AI 開發平台",
+        card: "Joey-2042",
+        usd: 10.00,
+        origUsd: 25.00,
+        type: "company",
+        status: "downgraded",
+        statusNote: "$25→$10/mo（降級 3 個月）",
+        history: [
+          { date: "2025/09/23", usd: 25, twd: 757 },
+          { date: "2025/10/23", usd: 25, twd: 769 },
+          { date: "2025/11/23", usd: 25, twd: 786 },
+          { date: "2025/12/23", usd: 25, twd: 788 },
+          { date: "2026/01/24", usd: 25, twd: 789 },
+          { date: "2026/02/23", usd: 25, twd: 788 }
+        ]
+      },
+      {
+        name: "Restream",
+        desc: "直播串流平台",
+        card: "Joey-2042",
+        usd: 490.00,
+        type: "company",
+        status: "cancelled",
+        validUntil: "2026/11/29",
+        statusNote: "年費，已取消續訂",
+        history: [
+          { date: "2025/12/04", usd: 490, twd: 15333 }
         ]
       },
       {
@@ -239,10 +392,52 @@
       }
     ];
 
+    function getStatusBadge(item) {
+      const s = item.status;
+      if (s === 'cancelled') {
+        const validText = item.validUntil ? `有效至 ${item.validUntil}` : '';
+        const note = item.statusNote ? ` · ${item.statusNote}` : '';
+        return `<span class="px-2.5 py-0.5 bg-red-100 text-red-700 rounded-full text-xs font-medium">✅ 已取消</span>` +
+          (validText ? `<span class="text-xs text-gray-400 ml-1">${validText}${note}</span>` : '');
+      }
+      if (s === 'one-time') {
+        return `<span class="px-2.5 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">一次性消費</span>`;
+      }
+      if (s === 'downgraded-free') {
+        return `<span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">✅ 已降免費</span>` +
+          (item.statusNote ? `<span class="text-xs text-gray-400 ml-1">${item.statusNote}</span>` : '');
+      }
+      if (s === 'downgraded') {
+        return `<span class="px-2.5 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">⬇️ 已降級</span>` +
+          (item.statusNote ? `<span class="text-xs text-gray-400 ml-1">${item.statusNote}</span>` : '');
+      }
+      if (s === 'in-use') {
+        return `<span class="px-2.5 py-0.5 bg-teal-100 text-teal-700 rounded-full text-xs font-medium">使用中</span>`;
+      }
+      // No status = pending
+      if (item.statusNote) {
+        return `<span class="text-xs text-amber-600">${item.statusNote}</span>`;
+      }
+      return `<span class="px-2.5 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">⏳ 待確認</span>`;
+    }
+
+    function isResolved(item) {
+      return ['cancelled', 'one-time', 'downgraded-free', 'downgraded', 'in-use'].includes(item.status);
+    }
+
     function render() {
-      const totalUsd = suggestions.reduce((s, i) => s + (i.usd || 0), 0);
+      // Calculate stats
+      const pending = suggestions.filter(i => !isResolved(i));
+      const cancelled = suggestions.filter(i => i.status === 'cancelled');
+      const downgraded = suggestions.filter(i => i.status === 'downgraded' || i.status === 'downgraded-free');
+
+      const pendingUsd = pending.reduce((s, i) => s + (i.usd || 0), 0);
+      const savedUsd = cancelled.reduce((s, i) => s + (i.usd || 0), 0)
+        + downgraded.reduce((s, i) => s + ((i.origUsd || i.usd) - i.usd), 0);
       const totalTwd = suggestions.reduce((s, i) => s + i.history.reduce((hs, h) => hs + h.twd, 0), 0);
-      document.getElementById('monthlySave').textContent = '$' + totalUsd.toFixed(2);
+
+      document.getElementById('monthlySave').textContent = '$' + pendingUsd.toFixed(2);
+      document.getElementById('monthlySaved').textContent = '$' + savedUsd.toFixed(2);
       document.getElementById('totalSpent').textContent = 'NT$' + totalTwd.toLocaleString();
 
       if (!suggestions.length) {
@@ -250,49 +445,60 @@
         return;
       }
 
-      const personal = suggestions.filter(s => s.type === 'personal');
-      const company = suggestions.filter(s => s.type === 'company');
       const container = document.getElementById('cards');
 
-      function renderSection(title, icon, items) {
+      // Group: resolved first, then pending
+      const resolved = suggestions.filter(i => isResolved(i));
+      const pendingItems = suggestions.filter(i => !isResolved(i));
+
+      function renderSection(title, icon, items, collapsed) {
         if (!items.length) return;
         const section = document.createElement('div');
-        section.innerHTML = `<h2 class="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2"><span>${icon}</span> ${title}</h2>`;
+        section.className = 'mb-6';
+        section.innerHTML = `<h2 class="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2"><span>${icon}</span> ${title} <span class="text-sm font-normal text-gray-400">(${items.length})</span></h2>`;
         items.forEach(item => {
           const typeBadge = item.type === 'personal'
             ? '<span class="px-2.5 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">個人</span>'
             : '<span class="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-full text-xs font-medium">公司</span>';
+
+          const isCancelled = item.status === 'cancelled' || item.status === 'one-time' || item.status === 'downgraded-free';
+          const cardOpacity = isCancelled ? 'opacity-70' : '';
+          const priceStrike = (item.status === 'cancelled' || item.status === 'downgraded-free') ? 'line-through text-gray-400' : 'text-amber-600';
+          const priceColor = item.status === 'downgraded' ? 'text-blue-600' : priceStrike;
+
           const card = document.createElement('div');
-          card.className = 'bg-white/60 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-white/50 shadow-lg mb-4';
+          card.className = `bg-white/60 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-white/50 shadow-lg mb-4 ${cardOpacity}`;
           card.innerHTML = `
             <div class="flex items-start justify-between">
               <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
+                <div class="flex items-center gap-2 sm:gap-3 mb-1 flex-wrap">
                   <h3 class="text-lg sm:text-xl font-bold text-gray-800">${item.name}</h3>
                   ${typeBadge}
                   <span class="px-2.5 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">${item.card}</span>
                 </div>
-                <p class="text-gray-500 text-sm">${item.desc}</p>
+                <p class="text-gray-500 text-sm mb-1">${item.desc}</p>
+                <div class="flex items-center gap-1 flex-wrap">${getStatusBadge(item)}</div>
               </div>
               <div class="text-right ml-4 sm:ml-6 flex-shrink-0">
-                <div class="text-2xl sm:text-3xl font-bold text-amber-600">$${item.usd?.toFixed(2) || '—'}</div>
-                <div class="text-xs text-gray-400">/ 月</div>
+                ${item.origUsd ? `<div class="text-sm line-through text-gray-400">$${item.origUsd.toFixed(2)}</div>` : ''}
+                <div class="text-2xl sm:text-3xl font-bold ${priceColor}">$${item.usd?.toFixed(2) || '—'}</div>
+                <div class="text-xs text-gray-400">${item.status === 'one-time' ? '' : '/ 月'}</div>
               </div>
             </div>
-            <div class="mt-4 pt-4 border-t border-gray-100">
-              <div class="text-xs text-gray-400 mb-2">帳單紀錄</div>
-              <div class="flex flex-wrap gap-2">
+            <details class="mt-4 pt-4 border-t border-gray-100">
+              <summary class="text-xs text-gray-400 cursor-pointer hover:text-gray-600">帳單紀錄 (${item.history.length})</summary>
+              <div class="flex flex-wrap gap-2 mt-2">
                 ${item.history.map(h => `<div class="px-3 py-1.5 bg-gray-50 rounded-xl text-xs text-gray-600 border border-gray-100">${h.date} — NT$${h.twd.toLocaleString()}</div>`).join('')}
               </div>
-            </div>
+            </details>
           `;
           section.appendChild(card);
         });
         container.appendChild(section);
       }
 
-      renderSection('個人訂閱', '👤', personal);
-      renderSection('公司採購訂閱', '🏢', company);
+      renderSection('⏳ 待確認', '📋', pendingItems);
+      renderSection('✅ 已處理', '📁', resolved);
     }
 
     // Auto-play on page load
@@ -302,10 +508,8 @@
       const skipBtn = document.getElementById('skipBtn');
       const hint = document.getElementById('introHint');
 
-      // Play video once + audio simultaneously
       video.play().catch(() => {});
       audio.play().catch(() => {
-        // Browser blocked autoplay — add click-to-play fallback
         hint.textContent = '點擊任意處播放';
         document.getElementById('intro').addEventListener('click', function handler() {
           video.play().catch(() => {});
@@ -315,7 +519,6 @@
         }, { once: true });
       });
 
-      // When audio finishes, make skip button prominent
       audio.addEventListener('ended', () => {
         hint.textContent = '';
         skipBtn.textContent = '好的，讓我看看 →';
@@ -328,7 +531,6 @@
       const el = document.getElementById('intro');
       el.classList.add('fade-out');
       setTimeout(() => el.style.display = 'none', 600);
-      // Stop audio if still playing
       const audio = document.getElementById('introAudio');
       audio.pause();
     }
