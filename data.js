@@ -71,13 +71,6 @@ const suggestions = [
       { date: "2026/02/15", usd: 10, twd: 314 }
     ]
   },
-      { date: "2025/10/27", usd: 144, twd: 4444 },
-      { date: "2025/11/19", usd: 144, twd: 4487 },
-      { date: "2025/12/27", usd: 144, twd: 4526 },
-      { date: "2026/01/19", usd: 144, twd: 4552 },
-      { date: "2026/02/19", usd: 144, twd: 4536 }
-    ]
-  },
   {
     name: "APITemplate",
     desc: "PDF/圖片生成 API",
@@ -150,20 +143,6 @@ const suggestions = [
     ]
   },
 
-  {
-    desc: "AI 圖像生成",
-    card: "Joey-2042",
-    usd: 10.50,
-    type: "company",
-    history: [
-      { date: "2025/10/01", usd: 10.5, twd: 320 },
-      { date: "2025/11/01", usd: 10.5, twd: 323 },
-      { date: "2025/12/01", usd: 10.5, twd: 330 },
-      { date: "2026/01/01", usd: 10.5, twd: 330 },
-      { date: "2026/02/01", usd: 10.5, twd: 331 },
-      { date: "2026/03/01", usd: 10.5, twd: 329 }
-    ]
-  },
   {
     name: "用 AI 發電 社群 (PathUnfold)",
     desc: "社群訂閱費",
