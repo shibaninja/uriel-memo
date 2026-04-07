@@ -1,30 +1,5 @@
 // Action Log: 取消/調整歷史紀錄
-const actionLog = [
-  {
-    date: '2026/04/06',
-    title: '訂閱優化 — Airtable 降為免費方案',
-    actions: [
-      { type: 'cancelled', name: 'Airtable', desc: '資料庫/專案管理', usd: 48, billing: 'monthly', note: '已排程於 2026/04/20 降為 Free' },
-    ]
-  },
-  {
-    date: '2026/03/22',
-    title: '訂閱優化 — 第一輪清理',
-    actions: [
-      { type: 'cancelled', name: 'Nansen', desc: 'Web3 鏈上數據分析', usd: 588, billing: 'yearly', note: '有效至 2027/03/06' },
-      { type: 'cancelled', name: 'Restream', desc: '直播串流平台', usd: 490, billing: 'yearly', note: '有效至 2026/11/29' },
-      { type: 'cancelled', name: 'Creatomate', desc: '影片/圖片自動化', usd: 187.24, billing: 'monthly', note: '有效至 2026/03/22' },
-      { type: 'cancelled', name: '2Sync', desc: '社群內容同步', usd: 24, billing: 'monthly', note: '有效至 2026/04/04' },
-      { type: 'cancelled', name: 'Heptabase', desc: '視覺化筆記', usd: 11.99, billing: 'monthly', note: '有效至 2026/04/15' },
-      { type: 'cancelled', name: 'WiserApp', desc: '數據工具（個人）', usd: 19.99, billing: 'monthly', note: '個人訂閱' },
-      { type: 'cancelled', name: 'HuggingFace', desc: 'ML 模型平台', usd: 9, billing: 'monthly', note: '降為免費版' },
-      { type: 'cancelled', name: 'Midjourney', desc: 'AI 圖像生成', usd: 10.50, billing: 'monthly', note: '停用' },
-      { type: 'adjusted', name: 'Replit', desc: 'AI 開發平台', from: 25, to: 10, billing: 'monthly', note: '降級方案' },
-      { type: 'adjusted', name: 'Airtable', desc: '資料庫/專案管理', from: 144, to: 48, billing: 'monthly', note: '6→2 seats' },
-      { type: 'reclassified', name: '1Picasso', desc: 'AI 藝術生成', note: '一次性消費，非訂閱' },
-    ]
-  }
-];
+const actionLog = [];
 
 // type: "personal" | "company"
 // status: undefined=待確認 | "cancelled" | "one-time" | "downgraded-free" | "downgraded" | "in-use"
@@ -139,7 +114,6 @@ const suggestions = [
     card: "Joey-2042",
     usd: 14.99,
     type: "company",
-    status: "in-use",
     history: [
       { date: "2025/09/22", usd: 14.99, twd: 454 },
       { date: "2025/10/22", usd: 14.99, twd: 460 },
@@ -156,7 +130,6 @@ const suggestions = [
     card: "Joey-2042",
     usd: 15.58,
     type: "company",
-    status: "in-use",
     history: [
       { date: "2025/10/10", usd: 15.58, twd: 477 },
       { date: "2025/11/10", usd: 15.58, twd: 483 },
@@ -170,11 +143,8 @@ const suggestions = [
     name: "Replit",
     desc: "AI 開發平台",
     card: "Joey-2042",
-    usd: 10.00,
-    origUsd: 25.00,
+    usd: 25.00,
     type: "company",
-    status: "downgraded",
-    statusNote: "$25→$10/mo（降級 3 個月）",
     history: [
       { date: "2025/09/23", usd: 25, twd: 757 },
       { date: "2025/10/23", usd: 25, twd: 769 },
@@ -196,25 +166,6 @@ const suggestions = [
       { date: "2025/11/29", usd: 29, twd: 911 },
       { date: "2025/12/29", usd: 29, twd: 912 },
       { date: "2026/01/29", usd: 29, twd: 911 }
-    ]
-  },
-  {
-    name: "Airtable",
-    desc: "資料庫/專案管理",
-    card: "Joey-2042",
-    usd: 0.00,
-    origUsd: 48.00,
-    type: "company",
-    status: "downgraded-free",
-    statusNote: "已排程於 2026/04/20 降為 Free",
-    history: [
-      { date: "2025/09/20", usd: 144, twd: 4624 },
-      { date: "2025/10/20", usd: 144, twd: 4637 },
-      { date: "2025/11/20", usd: 144, twd: 4660 },
-      { date: "2025/12/20", usd: 144, twd: 4684 },
-      { date: "2026/01/20", usd: 48, twd: 1579 },
-      { date: "2026/02/20", usd: 48, twd: 1580 },
-      { date: "2026/03/20", usd: 48, twd: 1588 }
     ]
   }
 ];
