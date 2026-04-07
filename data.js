@@ -1,6 +1,16 @@
 // Action Log: 取消/調整歷史紀錄
 const actionLog = [
   {
+    date: '2026/04/07',
+    title: '訂閱優化 — 今日取消自動續訂',
+    actions: [
+      { type: 'cancelled', name: 'Gamma', desc: 'AI 工具', usd: 96, billing: 'yearly', note: 'Cancels Mar 14, 2027 · Card 4204' },
+      { type: 'cancelled', name: 'BookingPress', desc: '訂位/預約系統', usd: 119, billing: 'yearly', note: 'Cancels Jan 10, 2027 · Card 2042' },
+      { type: 'cancelled', name: 'Midjourney', desc: 'AI 圖像生成', usd: 10, billing: 'monthly', note: 'Cancels May 1, 2026 · Card 2042' },
+      { type: 'cancelled', name: 'APITemplate', desc: 'PDF/圖片生成 API', usd: 89, billing: 'monthly', note: '今日取消自動續訂' },
+    ]
+  },
+  {
     date: '2026/04/06',
     title: '訂閱優化 — Airtable 降為免費方案',
     actions: [
