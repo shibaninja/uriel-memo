@@ -1,6 +1,13 @@
 // Action Log: 取消/調整歷史紀錄
 const actionLog = [
   {
+    date: '2026/04/06',
+    title: '訂閱優化 — Airtable 降為免費方案',
+    actions: [
+      { type: 'cancelled', name: 'Airtable', desc: '資料庫/專案管理', usd: 48, billing: 'monthly', note: '已排程於 2026/04/20 降為 Free' },
+    ]
+  },
+  {
     date: '2026/03/22',
     title: '訂閱優化 — 第一輪清理',
     actions: [
@@ -189,6 +196,25 @@ const suggestions = [
       { date: "2025/11/29", usd: 29, twd: 911 },
       { date: "2025/12/29", usd: 29, twd: 912 },
       { date: "2026/01/29", usd: 29, twd: 911 }
+    ]
+  },
+  {
+    name: "Airtable",
+    desc: "資料庫/專案管理",
+    card: "Joey-2042",
+    usd: 0.00,
+    origUsd: 48.00,
+    type: "company",
+    status: "downgraded-free",
+    statusNote: "已排程於 2026/04/20 降為 Free",
+    history: [
+      { date: "2025/09/20", usd: 144, twd: 4624 },
+      { date: "2025/10/20", usd: 144, twd: 4637 },
+      { date: "2025/11/20", usd: 144, twd: 4660 },
+      { date: "2025/12/20", usd: 144, twd: 4684 },
+      { date: "2026/01/20", usd: 48, twd: 1579 },
+      { date: "2026/02/20", usd: 48, twd: 1580 },
+      { date: "2026/03/20", usd: 48, twd: 1588 }
     ]
   }
 ];
