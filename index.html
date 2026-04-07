@@ -152,8 +152,8 @@
 
       const container = document.getElementById('cards');
 
-      // Group: resolved first, then pending
-      const resolved = suggestions.filter(i => isResolved(i));
+      // 已確認區依 SN 指示維持為空，只顯示待確認
+      const resolved = [];
       const pendingItems = suggestions.filter(i => !isResolved(i));
 
       function renderSection(title, icon, items, collapsed) {

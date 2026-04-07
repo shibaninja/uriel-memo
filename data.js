@@ -1,5 +1,30 @@
 // Action Log: 取消/調整歷史紀錄
-const actionLog = [];
+const actionLog = [
+  {
+    date: '2026/04/06',
+    title: '訂閱優化 — Airtable 降為免費方案',
+    actions: [
+      { type: 'cancelled', name: 'Airtable', desc: '資料庫/專案管理', usd: 48, billing: 'monthly', note: '' },
+    ]
+  },
+  {
+    date: '2026/03/22',
+    title: '訂閱優化 — 第一輪清理',
+    actions: [
+      { type: 'cancelled', name: 'Nansen', desc: 'Web3 鏈上數據分析', usd: 588, billing: 'yearly', note: '有效至 2027/03/06' },
+      { type: 'cancelled', name: 'Restream', desc: '直播串流平台', usd: 490, billing: 'yearly', note: '有效至 2026/11/29' },
+      { type: 'cancelled', name: 'Creatomate', desc: '影片/圖片自動化', usd: 187.24, billing: 'monthly', note: '有效至 2026/03/22' },
+      { type: 'cancelled', name: '2Sync', desc: '社群內容同步', usd: 24, billing: 'monthly', note: '有效至 2026/04/04' },
+      { type: 'cancelled', name: 'Heptabase', desc: '視覺化筆記', usd: 11.99, billing: 'monthly', note: '有效至 2026/04/15' },
+      { type: 'cancelled', name: 'WiserApp', desc: '數據工具（個人）', usd: 19.99, billing: 'monthly', note: '個人訂閱' },
+      { type: 'cancelled', name: 'HuggingFace', desc: 'ML 模型平台', usd: 9, billing: 'monthly', note: '降為免費版' },
+      { type: 'cancelled', name: 'Midjourney', desc: 'AI 圖像生成', usd: 10.50, billing: 'monthly', note: '停用' },
+      { type: 'adjusted', name: 'Replit', desc: 'AI 開發平台', from: 25, to: 10, billing: 'monthly', note: '降級方案' },
+      { type: 'adjusted', name: 'Airtable', desc: '資料庫/專案管理', from: 144, to: 48, billing: 'monthly', note: '6→2 seats' },
+      { type: 'reclassified', name: '1Picasso', desc: 'AI 藝術生成', note: '一次性消費，非訂閱' },
+    ]
+  }
+];
 
 // type: "personal" | "company"
 // status: undefined=待確認 | "cancelled" | "one-time" | "downgraded-free" | "downgraded" | "in-use"
